@@ -1,0 +1,100 @@
+144 хичээл
+48 долоо хоног
+
+Техникийн хичээл -> 2 долоо хоног
+Програмчлалын суурь -> 4 долоо хоног	
+	Үйлдлийн дараалал 
+	C хэл      - 2 долоо хоног
+	Python хэл - 2 долоо хоног
+
+HTML CSS JS    -> 3 сар 12 долоо хоног
+
+4 н сарын дараа
+
+Laravel Framework 3 сар
+
+Flutter 3 сар 
+
+Бие даасан project 2 сар
+7 хонгийн 3 н оролтын 2 н онол 1н битүү дадлага 
+
+Module 1: Introduction to Programming Concepts (2 weeks)
+
+Week 1: Introduction to Programming, Algorithms, and Flowcharts
+Week 2: Introduction to C Programming, Variables, Data Types, and Basic Input/Output
+
+Module 2: C Programming Fundamentals (4 weeks)
+
+Week 3: Control Structures (if, else, while, for)
+Week 4: Functions, Arrays, and Pointers
+Week 5: File I/O and Error Handling
+Week 6: Project: Building a Simple C Application
+
+Module 3: Python Programming Basics (4 weeks)
+
+Week 7: Introduction to Python and Basic Syntax
+Week 8: Data Types, Variables, and Operators
+Week 9: Control Flow (if, else, while, for)
+Week 10: Functions, Lists, and Dictionaries
+Week 11: File Handling and Error Handling
+Week 12: Project: Building a Python Application
+
+Module 4: Web Development (6 weeks)
+
+Week 13: Introduction to Web Development, HTML Fundamentals
+Week 14: Styling with CSS
+Week 15: JavaScript Fundamentals
+Week 16: DOM Manipulation and Event Handling
+Week 17: Asynchronous Programming and AJAX
+Week 18: Project: Building a Static Website
+
+Module 5: Database Management (4 weeks)
+
+Week 19: Introduction to Databases and SQL
+Week 20: Database Design and Normalization
+Week 21: CRUD Operations with SQL
+Week 22: Connecting Databases to Web Applications
+
+Module 6: Laravel Web Development (8 weeks)
+
+Week 23: Introduction to Laravel and MVC
+Week 24: Routing, Views, and Blade Templates
+Week 25: Eloquent ORM and Database Migrations
+Week 26: Authentication and Authorization
+Week 27: RESTful APIs with Laravel
+Week 28: Project: Building a Dynamic Web Application
+
+Module 7: Mobile App Development with Flutter (8 weeks)
+
+Week 29: Introduction to Mobile App Development and Flutter
+Week 30: Dart Programming Language
+Week 31: Widgets and Layouts in Flutter
+Week 32: Navigation and State Management
+Week 33: Building RESTful APIs for Mobile Apps
+Week 34: Project: Developing a Mobile App with Flutter
+
+Module 8: Final Projects and Capstone (4 weeks)
+
+Week 35-38: Final Projects, Individual or Group, combining all skills learned
+Week 39: Capstone Project Presentation
+Module 9: Career Development (2 weeks)
+
+Week 40: Resume Building and Interview Preparation
+Week 41: Job Search Strategies and Networking
+Program Features:
+
+Hands-on coding exercises and projects at the end of each module.
+Weekly quizzes and assessments.
+Peer-to-peer learning through group projects.
+Access to a learning management system for course materials.
+Dedicated instructors and mentors.
+Code reviews and feedback sessions.
+Online forums for Q&A and discussions.
+Career guidance and job placement assistance.
+Certification: Upon completion, students receive a Full Stack Development and Mobile App Development Certificate.
+
+Additional Resources: Provide access to online coding platforms, documentation, and resources to encourage self-learning and practice.
+
+Evaluation: Regular assessments, project evaluations, and a final capstone project presentation.
+
+This program is designed to give learners a strong foundation in C, Python, web development, databases, Laravel, and Flutter. It's important to adapt the pace and content as needed to suit the learners' abilities and needs. Additionally, offering mentorship and career development support will help students transition into the job market successfully
