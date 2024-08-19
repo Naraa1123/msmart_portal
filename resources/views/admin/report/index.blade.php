@@ -47,9 +47,9 @@
                                 <tr>
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item -> name }}</td>
-                                    <td>{{$item->student->userDetails->lastname}}</td>
+                                    <td>{{$item->student->userDetails->firstname}}</td>
                                     <td>
-                                        {{$item->teacher->userDetails->lastname}}
+                                        {{$item->teacher->userDetails->firstname}}
                                     </td>
                                     <td>
                                         {{$item->student->class->name}}
@@ -61,7 +61,7 @@
                                     <td>
                                         <a href="#" data-toggle="modal" data-target="#payHistoryModal{{$item->id}}"
                                            class="btn btn-primary btn-sm" title="show">
-                                            <i class="las la-eye"></i>
+                                            <i class="las la-book"></i>
                                         </a>
 
                                         <div class="modal fade" id="payHistoryModal{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="issueModalLabel" aria-hidden="true">
@@ -81,14 +81,14 @@
                                                                 <label for="note">Сурагч</label>
                                                                 <div class="input-group">
                                                                     <input name="note" class="form-control" type="text"
-                                                                           id="note" value="{{$item->student->userDetails->lastname}}" readonly/>
+                                                                           id="note" value="{{$item->student->userDetails->firstname}}" readonly/>
                                                                 </div>
                                                             </div>
                                                             <div>
                                                                 <label for="note">Багш</label>
                                                                 <div class="input-group">
                                                                     <input name="note" class="form-control" type="text"
-                                                                           id="note" value="{{$item->teacher->userDetails->lastname}}" readonly/>
+                                                                           id="note" value="{{$item->teacher->userDetails->firstname}}" readonly/>
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -116,6 +116,9 @@
                                             </div>
                                         </div>
 
+                                        <a href="{{ url('admin/user/show/'.encrypt($item->student_id)) }}" target="_blank" class="btn btn-success btn-sm" title="show">
+                                            <i class="las la-eye"></i>
+                                        </a>
 
                                     </td>
 

@@ -74,4 +74,11 @@ class SurveyResponseController extends Controller
         return redirect()->back()->with('success', 'Амжилттай!');
     }
 
+    public function students()
+    {
+        $teacher_id = Auth::user()->id;
+        $students = Report::query()->where('teacher_id',$teacher_id)->get();
+        return view('teacher.reports',compact('students'));
+    }
+
 }

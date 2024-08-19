@@ -290,6 +290,7 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
     Route::controller(\App\Http\Controllers\Student\SurveyResponseController::class)->group(function () {
         Route::post('submit/{id}', 'submit')->name('teacher.submit-survey');
         Route::post('report/{id}', 'report')->name('teacher.student-report-store');
+        Route::get('report/student', 'students')->name('teacher.reported-students');
     });
 
 

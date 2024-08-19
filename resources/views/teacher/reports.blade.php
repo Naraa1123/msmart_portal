@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.teacher')
 
 @section('style')
     <!--begin::Page Vendors Styles(used by this page)-->
@@ -43,7 +43,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($reports as $key=>$item)
+                            @foreach ($students as $key=>$item)
                                 <tr>
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item -> name }}</td>
@@ -61,7 +61,7 @@
                                     <td>
                                         <a href="#" data-toggle="modal" data-target="#payHistoryModal{{$item->id}}"
                                            class="btn btn-primary btn-sm" title="show">
-                                            <i class="las la-book"></i>
+                                            <i class="las la-eye"></i>
                                         </a>
 
                                         <div class="modal fade" id="payHistoryModal{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="issueModalLabel" aria-hidden="true">
@@ -73,8 +73,9 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form action="#">
-
+                                                    <form action="{{route('admin.reported-student-update',['id'=>$item->id])}}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
                                                         <div class="modal-body">
                                                             <div>
                                                                 <label for="note">Сурагч</label>
@@ -108,15 +109,13 @@
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Цуцлах</button>
+                                                            <button type="submit" class="btn btn-primary">Холбогдсон</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <a href="{{ url('admin/user/show/'.encrypt($item->student_id)) }}" target="_blank" class="btn btn-success btn-sm" title="show">
-                                            <i class="las la-eye"></i>
-                                        </a>
 
                                     </td>
 
