@@ -166,7 +166,6 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
             ->name('admin.teacher-classes.add');
     });
 
-    
     Route::controller(\App\Http\Controllers\Admin\ClassTimetableController::class)->group(function () {
         Route::get('timetable', 'index')->name('admin.timetable-all');
         Route::get('timetable/{classId}', 'getTimeData');
@@ -177,7 +176,6 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::controller(\App\Http\Controllers\Admin\StudentAttendanceController::class)->group(function () {
         Route::get('attendance/student', 'index')->name('admin.attendance-all');
         Route::get('attendance/student/fetch', 'fetch')->name('fetch.student.attendance');
-
         Route::post('attendance/student', 'comment')->name('admin.attendance-comment-add');
         Route::post('attendance/student/save', 'store');
         Route::get('/attendance-report', 'showAttendanceReport')->name('attendance.search');
@@ -253,6 +251,13 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('survey-class/delete/{id}', 'destroy')->name('admin.survey-class.delete');
     });
 
+    Route::controller(\App\Http\Controllers\Admin\ReportController::class)->group(function () {
+        Route::get('report', 'index')->name('admin.reported-students');
+        Route::get('report/contacted', 'contact')->name('admin.report-contacted-students');
+        Route::put('report/update/{id}', 'update')->name('admin.reported-student-update');
+
+    });
+
     Route::controller(\App\Http\Controllers\TestController::class)->group(function () {
         Route::get('give-survey', 'index');
 
@@ -284,7 +289,9 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
 
     Route::controller(\App\Http\Controllers\Student\SurveyResponseController::class)->group(function () {
         Route::post('submit/{id}', 'submit')->name('teacher.submit-survey');
+        Route::post('report/{id}', 'report')->name('teacher.student-report-store');
     });
+
 
     Route::controller(\App\Http\Controllers\Teacher\ProfileController::class)->group(function () {
         Route::get('profile', 'edit')->name('teacher.profile');

@@ -33,6 +33,9 @@
                                 <th>ID</th>
                                 <th>Оюутны ID</th>
                                 <th>Овог Нэр</th>
+                                <th>Утасны дугаар 1</th>
+                                <th>Утасны дугаар 2</th>
+                                <th>Утасны дугаар 3</th>
                                 <th>Оюутны элссэн (он-сар-өдөр)</th>
                                 <th>Үйлдэл</th>
                             </tr>
@@ -43,12 +46,48 @@
                                     <td>{{ ++$key }}</td>
                                     <td>{{$item->school_id}}</td>
                                     <td>{{ $item->userDetails->lastname }} {{ $item->userDetails->firstname }}</td>
-                                    <td>{{ $item->userDetails->admission_year }}</td>
+                                    <td>{{ $item->userDetails->phone_number_1 }}</td>
+                                    <td>{{ $item->userDetails->phone_number_2 }}</td>
+                                    <td>{{ $item->userDetails->phone_number_3 }}</td>
 
+                                    <td>{{ $item->userDetails->admission_year }}</td>
                                     <td>
                                         <a href="{{ url('teacher/class/student/grades/'.encrypt($item->id))}}" class="btn btn-success btn-sm">
                                             дүн
                                         </a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#AddModalPlan{{$item->id}}">
+                                            report
+                                        </button>
+
+                                        <!-- Modal-->
+                                        <div class="modal fade" id="AddModalPlan{{$item->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form method="POST" action="{{route('teacher.student-report-store',['id'=>$item->id])}}">
+                                                        @csrf
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="eventModalLabel">Create Event</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <label style="font-weight: bold; margin-top: 5px;">Зөрчил</label>
+                                                                <input type="text" name="name" class="form-control" required>
+                                                                <label style="font-weight: bold;margin-top: 5px;">Тайлбар</label>
+                                                                <textarea name="description" class="form-control" required></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary" id="saveEvent">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

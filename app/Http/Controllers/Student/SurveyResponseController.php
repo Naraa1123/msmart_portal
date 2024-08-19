@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Report;
 use App\Models\SurveyResponse;
 use App\Models\SurveyRespondents;
 use Illuminate\Http\Request;
@@ -55,6 +56,22 @@ class SurveyResponseController extends Controller
             return redirect()->route('student.grade')->with('success', 'Survey submitted successfully!');
         }
 
+    }
+
+    public function report(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|String',
+            'description' => 'required|String',
+        ]);
+        $teacher_id = Auth::user()->id;
+        Report::create([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'teacher_id' => $teacher_id,
+            'student_id' => $id,
+        ]);
+        return redirect()->back()->with('success', 'Амжилттай!');
     }
 
 }
