@@ -24,6 +24,7 @@ class CheckIpMiddleware
         ];
 
         $currentIP = $request->ip();
+        dd($currentIP);
         $initialIP = session('user_initial_ip', $currentIP);
 
         if ($currentIP !== $initialIP) {
