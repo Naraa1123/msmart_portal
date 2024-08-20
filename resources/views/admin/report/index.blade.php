@@ -47,9 +47,9 @@
                                 <tr>
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item -> name }}</td>
-                                    <td>{{$item->student->userDetails->firstname}}</td>
+                                    <td>{{$item->student->userDetails->lastname}} {{$item->student->userDetails->firstname}}</td>
                                     <td>
-                                        {{$item->teacher->userDetails->firstname}}
+                                       {{$item->teacher->userDetails->firstname}}
                                     </td>
                                     <td>
                                         {{$item->student->class->name}}

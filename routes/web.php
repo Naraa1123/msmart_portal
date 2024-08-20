@@ -311,9 +311,9 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
     });
 
     Route::controller(\App\Http\Controllers\Teacher\StudentAttendanceController::class)->group(function () {
-        Route::post('attendance/student', 'index')->name('teacher.attendance-all');
-        Route::get('attendance/student', 'index')->name('teacher.attendance-plans');
-        Route::post('attendance/student/save', 'store');
+        Route::post('attendance/student', 'index')->name('teacher.attendance-all')->middleware('checkIP');
+        Route::get('attendance/student', 'index')->name('teacher.attendance-plans')->middleware('checkIP');;
+        Route::post('attendance/student/save', 'store')->middleware('checkIP');;
         Route::get('/attendance-report', 'showAttendanceReport')->name('teacher.attendance.search');
     });
 

@@ -46,7 +46,7 @@
                             @foreach ($students as $key=>$item)
                                 <tr>
                                     <td>{{ ++$key }}</td>
-                                    <td>{{ $item -> name }}</td>
+                                    <td>{{ $item->name }}</td>
                                     <td>{{$item->student->userDetails->firstname}}</td>
                                     <td>
                                         {{$item->teacher->userDetails->firstname}}
@@ -68,14 +68,12 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="issueModalLabel">Асуудалтай оюутан бүртгэх</h5>
+                                                        <h5 class="modal-title" id="issueModalLabel">Асуудалтай оюутан</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form action="{{route('admin.reported-student-update',['id'=>$item->id])}}" method="POST">
-                                                        @method('PUT')
-                                                        @csrf
+                                                    <form>
                                                         <div class="modal-body">
                                                             <div>
                                                                 <label for="note">Сурагч</label>
@@ -109,7 +107,6 @@
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Цуцлах</button>
-                                                            <button type="submit" class="btn btn-primary">Холбогдсон</button>
                                                         </div>
                                                     </form>
                                                 </div>
