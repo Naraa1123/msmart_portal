@@ -196,6 +196,7 @@
                                     <th>Анги</th>
                                     <th>Өдөр</th>
                                     <th>Ирцийн төлөв</th>
+                                    <th>Тэмдэглэл</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -244,6 +245,9 @@
                                             </span>
                                             @endif
                                         </td>
+
+                                        <td>{{ $item->comment ?? '' }}</td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>

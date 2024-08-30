@@ -17,11 +17,10 @@ class CheckIpMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $allowedIPs = [
-            '66.181.185.100',
-            '103.212.119.162',
-            '66.181.190.90',
-            '66.181.177.114',
-            '66.181.187.139'
+            '66.181.179.118',
+            '66.181.189.171',
+            '66.181.179.18',
+            '66.181.187.139',
         ];
 
         $currentIP = $request->ip();
