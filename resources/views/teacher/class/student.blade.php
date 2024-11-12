@@ -52,10 +52,13 @@
 
                                     <td>{{ $item->userDetails->admission_year }}</td>
                                     <td>
-                                        <a href="{{ url('teacher/class/student/grades/'.encrypt($item->id))}}" class="btn btn-success btn-sm">
-                                            дүн
+                                        <a href="{{ url('teacher/class/student/grades/'.encrypt($item->id))}}" class="btn btn-success btn-sm d-block">
+                                            Хичээлийн дүн
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#AddModalPlan{{$item->id}}">
+                                        <a href="{{ route('teacher.topic-grade', ['id'=>encrypt($item->id)])  }}" class="btn btn-success btn-sm d-block mt-3">
+                                            Судлагдахууны дүн
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm d-block mt-3 w-100" data-toggle="modal" data-target="#AddModalPlan{{$item->id}}">
                                             report
                                         </button>
 

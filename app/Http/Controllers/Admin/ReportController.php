@@ -10,7 +10,12 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $reports = Report::query()->where('status','холбогдоогүй')->get();
+        $reports = Report::query()
+            ->where('status', 'холбогдоогүй')
+            ->whereHas('student.userDetails', function ($query) {
+                $query->where('status', 'studying');
+            })
+            ->get();
 
         return view('admin.report.index',compact('reports'));
     }

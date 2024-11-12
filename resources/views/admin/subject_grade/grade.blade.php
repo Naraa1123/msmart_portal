@@ -26,111 +26,145 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <!--begin: Datatable-->
-                        <table class="table table-bordered table-hover table-checkable" id="kt_datatable"
-                               style="margin-top: 13px !important">
+                        <table class="table table-bordered table-hover table-checkable" style="margin-top: 13px !important">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Хичээл</th>
+                                <th>Судлагдахуун</th>
+                                <th>Технологи</th>
                                 <th>Дүн</th>
                                 <th>Үнэлгээ</th>
                                 <th>Үйлдэл</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($subjectsWithGrades as $index => $subjectWithGrade)
-                                <tr>
-
-                                    <td>{{ ++$index }}</td>
-                                    <td>{{ $subjectWithGrade['subject']->name }}</td>
-                                    <td>{{ $subjectWithGrade['grade'] }}</td>
-                                    <td>
-                                        @if ($subjectWithGrade['grade'] == 'No Grade')
-                                            {{ "Дүн Ороогүй" }}
-                                        @elseif($subjectWithGrade['grade'] >= 97)
-                                            {{ "A+" }}
-                                        @elseif($subjectWithGrade['grade'] >= 93)
-                                            {{ "A" }}
-                                        @elseif($subjectWithGrade['grade'] >= 90)
-                                            {{ "A-" }}
-                                        @elseif($subjectWithGrade['grade'] >= 87)
-                                            {{ "B+" }}
-                                        @elseif($subjectWithGrade['grade'] >= 83)
-                                            {{ "B" }}
-                                        @elseif($subjectWithGrade['grade'] >= 80)
-                                            {{ "B-" }}
-                                        @elseif($subjectWithGrade['grade'] >= 77)
-                                            {{ "C+" }}
-                                        @elseif($subjectWithGrade['grade'] >= 73)
-                                            {{ "C" }}
-                                        @elseif($subjectWithGrade['grade'] >= 70)
-                                            {{ "C-" }}
-                                        @elseif($subjectWithGrade['grade'] >= 67)
-                                            {{ "D+" }}
-                                        @elseif($subjectWithGrade['grade'] >= 63)
-                                            {{ "D" }}
-                                        @elseif($subjectWithGrade['grade'] >= 60)
-                                            {{ "D-" }}
-                                        @else
-                                            {{ "F" }}
+                            @php $index = 1; @endphp
+                            @foreach($subjectsGroupedByTopic as $topicGroup)
+                                @php
+                                    $subjectCount = $topicGroup['subjects']->count(); // Get the number of subjects for each topic
+                                @endphp
+                                @foreach($topicGroup['subjects'] as $key => $subjectWithGrade)
+                                    <tr>
+                                        <td>{{ $index++ }}</td>
+                                        @if($key === 0)
+                                            <td rowspan="{{ $subjectCount }}" style="vertical-align: middle">{{ $topicGroup['topic']->topic }}</td>
                                         @endif
-                                    </td>
+                                        <td>{{ $subjectWithGrade['subject']->name }}</td>
+                                        <td>{{ $subjectWithGrade['grade'] }}</td>
+                                        <td>
+                                            @if ($subjectWithGrade['grade'] === 'No Grade')
+                                                {{ "Дүн Ороогүй" }}
+                                            @elseif($subjectWithGrade['grade'] >= 97)
+                                                {{ "A+" }}
+                                            @elseif($subjectWithGrade['grade'] >= 93)
+                                                {{ "A" }}
+                                            @elseif($subjectWithGrade['grade'] >= 90)
+                                                {{ "A-" }}
+                                            @elseif($subjectWithGrade['grade'] >= 87)
+                                                {{ "B+" }}
+                                            @elseif($subjectWithGrade['grade'] >= 83)
+                                                {{ "B" }}
+                                            @elseif($subjectWithGrade['grade'] >= 80)
+                                                {{ "B-" }}
+                                            @elseif($subjectWithGrade['grade'] >= 77)
+                                                {{ "C+" }}
+                                            @elseif($subjectWithGrade['grade'] >= 73)
+                                                {{ "C" }}
+                                            @elseif($subjectWithGrade['grade'] >= 70)
+                                                {{ "C-" }}
+                                            @elseif($subjectWithGrade['grade'] >= 67)
+                                                {{ "D+" }}
+                                            @elseif($subjectWithGrade['grade'] >= 63)
+                                                {{ "D" }}
+                                            @elseif($subjectWithGrade['grade'] >= 60)
+                                                {{ "D-" }}
+                                            @else
+                                                {{ "F" }}
+                                            @endif
+                                        </td>
 
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-sm edit-grade-btn"
-                                                data-toggle="modal" data-target="#editGradeModal{{ $index }}"
-                                                data-grade="{{ $subjectWithGrade['grade'] ?? '' }}"
-                                                data-subject-id="{{ $subjectWithGrade['subject']->id }}">
-                                            дүн засах
-                                        </button>
-                                    </td>
-                                    <!-- Modal Structure -->
-                                    <div class="modal fade" id="editGradeModal{{ $index }}" tabindex="-1"
-                                         aria-labelledby="editGradeModalLabel{{ $index }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editGradeModalLabel{{ $index }}">Дүн
-                                                        засах хичээл: {{ $subjectWithGrade['subject']->name }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ route('admin.subject-grade.updateOrCreate') }}"
-                                                          method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                        <input type="hidden" name="subject_id"
-                                                               value="{{ $subjectWithGrade['subject']->id }}">
-                                                        <div class="form-group">
-                                                            <label for="scoreInput{{ $index }}">Score</label>
-                                                            <input type="number" class="form-control"
-                                                                   id="scoreInput{{ $index }}" name="score"
-                                                                   value="{{ $subjectWithGrade['grade'] ?? '' }}"
-                                                                   required>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Close
-                                                            </button>
-                                                            <button type="submit" class="btn btn-primary">Save changes
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </tr>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm edit-grade-btn"
+                                                    data-toggle="modal" data-target="#editGradeModal"
+                                                    data-grade="{{ $subjectWithGrade['grade'] ?? '' }}"
+                                                    data-subject-id="{{ $subjectWithGrade['subject']->id }}"
+                                                    data-subject-name="{{ $subjectWithGrade['subject']->name }}">
+                                                дүн засах
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                            @foreach($topic_grades as $topic_grade)
+                                <td>{{ $index++ }}</td>
+                                <td>{{ $topic_grade->gradingTopic->topic }}</td>
+                                <td></td>
+                                <td>{{ $topic_grade->grade  }}</td>
+                                <td>
+                                    @if ($topic_grade->grade === 'No Grade')
+                                        {{ "Дүн Ороогүй" }}
+                                    @elseif($topic_grade->grade >= 97)
+                                        {{ "A+" }}
+                                    @elseif($topic_grade->grade >= 93)
+                                        {{ "A" }}
+                                    @elseif($topic_grade->grade >= 90)
+                                        {{ "A-" }}
+                                    @elseif($topic_grade->grade >= 87)
+                                        {{ "B+" }}
+                                    @elseif($topic_grade->grade >= 83)
+                                        {{ "B" }}
+                                    @elseif($topic_grade->grade >= 80)
+                                        {{ "B-" }}
+                                    @elseif($topic_grade->grade >= 77)
+                                        {{ "C+" }}
+                                    @elseif($topic_grade->grade >= 73)
+                                        {{ "C" }}
+                                    @elseif($topic_grade->grade >= 70)
+                                        {{ "C-" }}
+                                    @elseif($topic_grade->grade >= 67)
+                                        {{ "D+" }}
+                                    @elseif($topic_grade->grade >= 63)
+                                        {{ "D" }}
+                                    @elseif($topic_grade->grade >= 60)
+                                        {{ "D-" }}
+                                    @else
+                                        {{ "F" }}
+                                    @endif
+                                </td>
                             @endforeach
                             </tbody>
                         </table>
-                        <!--end: Datatable-->
+
+                        <!-- Single Modal Structure -->
+                        <div class="modal fade" id="editGradeModal" tabindex="-1" aria-labelledby="editGradeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editGradeModalLabel">Дүн засах хичээл: <span id="modalSubjectName"></span></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('admin.subject-grade.updateOrCreate') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                            <input type="hidden" name="subject_id" id="modalSubjectId">
+                                            <div class="form-group">
+                                                <label for="modalScoreInput">Score</label>
+                                                <input type="number" class="form-control" id="modalScoreInput" name="score" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
                 <!--end::Card-->
             </div>

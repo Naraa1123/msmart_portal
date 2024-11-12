@@ -25,6 +25,19 @@ class ClassUserController extends Controller
         }
     }
 
+    public function grade()
+    {
+        $teacher = Auth::user();
+
+        if ($teacher->role_as == 2) {
+            $teacherClasses = $teacher->teacherClasses()->where('status',0)->get();
+            return view('teacher.grade.index', compact('teacherClasses'));
+        } else {
+            return redirect('teacher/dashboard')->with('message', 'Таньд багшийн хэсэг рүү нэвтрэх эрх байхгүй байна');
+        }
+    }
+
+
     public function viewStudents($classId)
     {
         $teacher = Auth::user();

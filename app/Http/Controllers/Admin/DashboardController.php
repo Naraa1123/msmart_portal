@@ -202,7 +202,9 @@ class DashboardController extends Controller
 
         // 9 сарын аниудын анги дүүргэлтийн график
 
-        $programmerClasses = SchoolClass::where('name', 'LIKE', '%2409%')
+        $currentMonth = date('y') . date('m');
+
+        $programmerClasses = SchoolClass::where('name', 'LIKE', "%{$currentMonth}%")
             ->select('name')
             ->withCount('users')
             ->get();
@@ -221,6 +223,34 @@ class DashboardController extends Controller
         ];
 
         return view('admin.dashboard', compact('labels', 'data','seconddata','thirddata','fourthdata','fifthdata','sixthdata'));
+    }
+
+    public function getClassData(Request $request)
+    {
+        $selectedMonth = $request->query('month', date('Y-m'));
+
+        list($year, $month) = explode('-', $selectedMonth);
+
+        $formattedMonth = substr($year, 2, 2) . $month;
+
+        $programmerClasses = SchoolClass::where('name', 'LIKE', "%{$formattedMonth}%")
+            ->select('name')
+            ->withCount('users')
+            ->get();
+
+
+        $ProgramLabels = [];
+        $ProgramData = [];
+
+        foreach ($programmerClasses as $class) {
+            $ProgramLabels[] = $class->name;
+            $ProgramData[] = $class->users_count;
+        }
+
+        return response()->json([
+            'labels' => $ProgramLabels,
+            'sixthdata' => $ProgramData,
+        ]);
     }
 
     public function income()

@@ -66,9 +66,14 @@
             </div>
 
             <div class="d-flex flex-row" style="justify-content: space-evenly; flex-wrap: wrap; margin-bottom:80px">
+
                 <div class="card mb-3" style="width: 80%">
                     <div style="text-align: center; padding-top: 10px">
-                        <h3 class="card-title" style="font-weight: bold; margin-bottom: 10px; font-size: 36px">9 сарын элсэлт</h3>
+                        <h3 class="card-title" style="font-weight: bold; margin-bottom: 10px; font-size: 36px">Элсэлтүүд</h3>
+                    </div>
+                    <div class="d-flex flex-row align-items-center">
+                        <label for="monthSelector" style="width: 10%; text-align: center">Сар сонгоно уу:</label>
+                        <select id="monthSelector" class="form-control" style="margin-right: 10px"></select>
                     </div>
                     <canvas class="card-img-bottom" id="ProgrammerChart"></canvas>
                 </div>
@@ -80,6 +85,43 @@
 
 
 @section('script')
+    <script>
+        document.getElementById('monthSelector').addEventListener('change', function() {
+            var selectedMonth = this.value;
+
+            // Send AJAX request to get data for the selected month
+            fetch(`admin/get-class-data?month=${selectedMonth}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the chart data
+                    myChart.data.labels = data.labels;
+                    myChart.data.datasets[0].data = data.sixthdata;
+                    myChart.update();
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+    <script>
+        const monthSelector = document.getElementById('monthSelector');
+        const currentDate = new Date();
+
+        for (let i = 0; i < 12; i++) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            const monthValue = month < 10 ? '0' + month : month;
+
+            const option = document.createElement('option');
+            option.value = `${year}-${monthValue}`; // Use "YYYY-MM" format
+            option.text = ` ${year} оны ${monthValue} сар`;
+
+            console.log(option.value);
+
+            monthSelector.appendChild(option);
+        }
+    </script>
     <script>
         var ctx = document.getElementById('pieChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -336,7 +378,7 @@
                 datasets: [{
                     data: @json($sixthdata['sixthdata']),
                     backgroundColor: [
-                        'rgba(54, 162, 235, 25.7)',
+                        'rgba(54, 162, 235, 0.7)',
                         'rgba(74, 143, 246, 0.7)',
                         'rgba(209, 19, 32, 0.7)',
                         'rgba(244, 98, 108, 0.7)',
@@ -348,14 +390,14 @@
                     ],
                     borderColor: [
                         'rgba(54, 162, 235, 1)',
-                        'rgba(42, 87, 154, 0.7)',
-                        'rgba(149, 13, 22, 0.7)',
-                        'rgba(169, 68, 68, 0.7)',
-                        'rgba(161, 88, 39, 0.7)',
-                        'rgba(189, 178, 19, 0.7)',
+                        'rgba(42, 87, 154, 1)',
+                        'rgba(149, 13, 22, 1)',
+                        'rgba(169, 68, 68, 1)',
+                        'rgba(161, 88, 39, 1)',
+                        'rgba(189, 178, 19, 1)',
                         'rgba(153, 102, 255, 1)',
-                        'rgba(178, 36, 164, 0.7)',
-                        'rgba(18, 104, 18, 0.7)',
+                        'rgba(178, 36, 164, 1)',
+                        'rgba(18, 104, 18, 1)',
                     ],
                     borderWidth: 1
                 }]
@@ -383,7 +425,4 @@
             }
         });
     </script>
-
-
-
 @endsection

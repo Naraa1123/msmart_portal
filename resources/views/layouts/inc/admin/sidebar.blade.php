@@ -414,6 +414,23 @@
                                 data-menu-toggle="hover">
 
                             <li id="grade" class="menu-item" aria-haspopup="true">
+                                <a href="{{route('admin.grading-topic')}}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Дүнгийн сэдэв</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="menu-submenu">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li id="grade" class="menu-item menu-item-submenu" aria-haspopup="true"
+                                data-menu-toggle="hover">
+
+                            <li id="grade" class="menu-item" aria-haspopup="true">
                                 <a href="{{route('admin.subject-class')}}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>

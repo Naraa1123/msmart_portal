@@ -37,7 +37,7 @@ class ClassSubjectController extends Controller
 
     public function create()
     {
-        $departments = ['Программ хангамж', 'График дизайн', 'Интерьер дизайн', 'Хүүхдийн анги'];
+        $departments = ['Программ хангамж', 'График дизайн', 'Интерьер дизайн', 'Хүүхдийн анги','Ерөнхий судлах хичээл'];
         $subjectsByDepartment = [];
 
         // Fetch subjects grouped by department

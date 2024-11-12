@@ -23,6 +23,19 @@
                                 <option value="График дизайн" {{ $subject->department == 'График дизайн' ? 'selected' : '' }}>График дизайн</option>
                                 <option value="Интерьер дизайн" {{ $subject->department == 'Интерьер дизайн' ? 'selected' : '' }}>Интерьер дизайн</option>
                                 <option value="Хүүхдийн анги" {{ $subject->department == 'Хүүхдийн анги' ? 'selected' : '' }}>Хүүхдийн анги</option>
+                                <option value="Ерөнхий судлах хичээл" {{ $subject->department == 'Ерөнхий судлах хичээл' ? 'selected' : '' }}>Ерөнхий судлах хичээл</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="grading_topic">Сэдэв сонгох: </label>
+                            <select name="grading_topic" class="form-control">
+                                <option value="">Сэдвээ сонгоно уу</option>
+                                @foreach($topics as $item)
+                                    <option value="{{$item->id}}" {{ $subject->grading_topic_id == $item->id ? 'selected' : '' }}>
+                                        {{$item->topic}}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -67,6 +80,32 @@
 @endsection
 
 @section('script')
+    <script>
+        $(document).ready(function() {
+            $('select[name="department"]').on('change', function() {
+                const department = $(this).val();
+                const gradingTopicSelect = $('select[name="grading_topic"]');
+
+                // Clear the grading_topic dropdown
+                gradingTopicSelect.empty();
+
+                if (department) {
+                    $.ajax({
+                        url: `admin/get-grading-topics?department=${department}`, // Adjust endpoint as needed
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log(data);
+                            $.each(data, function(key, topic) {
+                                gradingTopicSelect.append(new Option(topic.topic, topic.id));
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
     <script>
         function goBack() {
             window.history.back();

@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(SubjectGrade::class);
     }
 
+    public function topicGrades()
+    {
+        return $this->hasMany(TopicGrade::class);
+    }
+
     public function school()
     {
         return $this->belongsTo(SchoolClass::class);

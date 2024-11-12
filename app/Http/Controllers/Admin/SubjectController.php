@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\GradingTopic;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,12 +30,14 @@ class SubjectController extends Controller
         $validatedData = $request->validate([
             'department' => 'required',
             'name' => 'required|string|max:255',
+            'grading_topic' => 'nullable|string|max:255',
             'status' => 'nullable'
         ]);
 
         Subject::create([
             'name' => $validatedData['name'],
             'department' => $validatedData['department'],
+            'grading_topic_id' => $validatedData['grading_topic'] ?? null,
             'status' => $request->status == true ? '1' : '0',
         ]);
 
@@ -47,7 +50,11 @@ class SubjectController extends Controller
         $decryptedId = decrypt($id);
         $departments = Department::all();
         $subject = Subject::findOrFail($decryptedId);
-        return view('admin.subject.edit', compact('subject', 'departments'));
+        $topics = GradingTopic::where('department', $subject->department)
+            ->where('status',0)
+            ->get();
+
+        return view('admin.subject.edit', compact('subject', 'departments','topics'));
     }
 
     public function update(Request $request, $id)
@@ -56,10 +63,12 @@ class SubjectController extends Controller
 
         $validatedData = $request->validate([
             'department' => 'required',
+            'grading_topic' => 'nullable',
             'name' => 'required|string|max:255',
             'status' => 'nullable'
         ]);
         $subject->department = $validatedData['department'];
+        $subject->grading_topic_id = $validatedData['grading_topic'] ?? null;
         $subject->name = $validatedData['name'];
         $subject->status = $request->has('status') ? 1 : 0;
 

@@ -51,6 +51,8 @@ Route::middleware('checkIP')->get('get-data', function () {
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('income', [\App\Http\Controllers\Admin\DashboardController::class, 'income'])->name('admin.monthly-income');
+    Route::get('get-class-data', [\App\Http\Controllers\Admin\DashboardController::class, 'getClassData']);
+
 
     Route::controller(\App\Http\Controllers\Admin\DepartmentController::class)->group(function () {
         Route::get('department', 'index')->name('admin.department-all');
@@ -94,6 +96,17 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('subject/edit/{id}', 'edit');
         Route::put('subject/{id}', 'update');
         Route::get('subject/delete/{id}', 'destroy');
+    });
+
+    Route::controller(\App\Http\Controllers\Admin\GradingTopicController::class)->group(function () {
+        Route::get('grading-topic', 'index')->name('admin.grading-topic');
+        Route::get('/get-grading-topics', 'getGradingTopics');
+        Route::get('grading-topic/create', 'create')->name('admin.grading-topic.create');
+        Route::get('grading-topic/edit/{id}', 'edit')->name('admin.grading-topic.edit');
+        Route::put('grading-topic/update/{id}', 'update')->name('admin.grading-topic.update');
+        Route::get('grading-topic/delete/{id}', 'destroy')->name('admin.grading-topic.delete');
+        Route::post('grading-topic/store', 'store')->name('admin.grading-topic.store');
+
     });
 
     Route::controller(\App\Http\Controllers\Admin\ClassSubjectController::class)->group(function () {
@@ -285,6 +298,8 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
         Route::get('хүүхэд-хамгааллын-бодлого', 'juram4')->name('teacher.juram4');
         Route::get('сурагчдын-тэтгэлэгт-хамрагдах-тухай', 'juram5')->name('teacher.juram5');
         Route::get('survey', 'survey')->name('teacher.survey');
+        Route::get('survey', 'getClassData')->name('teacher.survey');
+
     });
 
     Route::controller(\App\Http\Controllers\Student\SurveyResponseController::class)->group(function () {
@@ -301,8 +316,8 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
 
     Route::controller(\App\Http\Controllers\Teacher\ClassUserController::class)->group(function () {
         Route::get('classes', 'index')->name('teacher.classes');
+        Route::get('grade-classes', 'grade')->name('teacher.classes-grade');
         Route::get('class/students/{id}', 'viewStudents');
-        Route::get('class/subjects/{id}', 'viewSubjects');
         Route::post('class/subject/change-status/{id}', 'changeStatus');
 
         Route::get('class/student/grades/{id}', 'viewGrades')->name('teacher.view-grade');
@@ -315,6 +330,12 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
         Route::get('attendance/student', 'index')->name('teacher.attendance-plans');
         Route::post('attendance/student/save', 'store');
         Route::get('/attendance-report', 'showAttendanceReport')->name('teacher.attendance.search');
+    });
+
+    Route::controller(\App\Http\Controllers\Teacher\TopicGradeController::class)->group(function () {
+        Route::get('/teacher/class/student/topic-grade/{id}', 'index')->name('teacher.topic-grade');
+        Route::post('/teacher/class/student/topic-grade/store', 'updateOrCreate')->name('teacher.topic-grade.updateOrCreate');
+
     });
 
     Route::controller(\App\Http\Controllers\Teacher\TimetableController::class)->group(function () {

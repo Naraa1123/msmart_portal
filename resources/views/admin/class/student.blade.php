@@ -58,7 +58,7 @@
                                         </span>
 
                                         @elseif($item->userDetails->status  == 'dropped_out')
-                                                <span style="width: 112px;">
+                                            <span style="width: 112px;">
                                                 <span
                                                     class="label font-weight-bold label-lg  label-light-danger label-inline">хаясан</span>
                                         </span>
@@ -141,6 +141,37 @@
                                                     @empty
                                                         <h3>Дүн гараагүй байна</h3>
                                                     @endforelse
+
+                                                    @foreach($item->topicGrades as $grade)
+                                                        <div class="row">
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label for="paid_amount">Сэдэв</label>
+                                                                    <div class="input-group">
+                                                                        <input placeholder="төлсөн дүн бичнэ үү"
+                                                                               name="paid_amount"
+                                                                               class="form-control"
+                                                                               type="text"
+                                                                               value="{{$grade->gradingTopic->topic}}"
+                                                                               readonly/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label for="paid_amount">Дүн</label>
+                                                                    <div class="input-group">
+                                                                        <input placeholder="төлсөн дүн бичнэ үү"
+                                                                               name="paid_amount"
+                                                                               class="form-control"
+                                                                               type="text" value="{{$grade->grade}}%"
+                                                                               readonly/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+
                                                 </div>
                                             </div>
                                         </div>
@@ -175,18 +206,25 @@
                                                         <label for="diploma_name" class="mt-4">Дипломын сэдэв</label>
                                                         <div class="input-group">
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="diploma_name" id="diploma_name"
-                                                                value="{{$item->userDetails->diploma_name}}" required>
+                                                                <input type="text" class="form-control"
+                                                                       name="diploma_name" id="diploma_name"
+                                                                       value="{{$item->userDetails->diploma_name}}"
+                                                                       required>
                                                             </div>
                                                         </div>
-                                                        <label for="diploma_received_date" class="mt-4">Дипломын олгосон өдөр</label>
+                                                        <label for="diploma_received_date" class="mt-4">Дипломын олгосон
+                                                            өдөр</label>
                                                         <div class="input-group">
                                                             <div class="input-group">
-                                                                <input type="date" class="form-control" name="diploma_received_date" id="diploma_received_date"
-                                                                       value="{{$item->userDetails->diploma_received_date}}" required>
+                                                                <input type="date" class="form-control"
+                                                                       name="diploma_received_date"
+                                                                       id="diploma_received_date"
+                                                                       value="{{$item->userDetails->diploma_received_date}}"
+                                                                       required>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary mt-4">Хадгалах</button>
+                                                        <button type="submit" class="btn btn-primary mt-4">Хадгалах
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
