@@ -102,7 +102,11 @@ class ClassSubjectController extends Controller
             return redirect()->back()->with('error', 'No subjects selected for this class.');
         }
 
-        $unselectedSubjects = Subject::whereNotIn('id', $selectedSubjects->pluck('subject_id'))->where('status', '0')->get();
+        $unselectedSubjects = Subject::whereNotIn('id', $selectedSubjects->pluck('subject_id'))
+            ->where('status', '0')
+            ->get()
+            ->groupBy('department');
+
         $class_id = $decryptedClassId;
         $classes = SchoolClass::where('status',0)->get();
 

@@ -15,7 +15,6 @@
                       enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="class_id">Class</label>
@@ -29,7 +28,7 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <h4>Selected Subjects:</h4>
+                                <h4 class="mb-4">Сонгосон хичээлүүд:</h4>
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -53,7 +52,6 @@
                                                     Change Status
                                                 </a>
                                             </td>
-
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -61,30 +59,30 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <h4>Unselected Subjects:</h4>
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Subject Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($unselectedSubjects as $subject)
+                                <h4 class="mb-4">Сонгогдоогүй хичээлүүд:</h4>
+                                @foreach ($unselectedSubjects as $department => $subjects)
+                                    <table class="table table-bordered">
+                                        <thead>
                                         <tr>
-                                            <td>{{ $subject->name }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.class-subjects.add', ['classId' => $class_id, 'subjectId' => $subject->id]) }}"
-                                                   class="btn btn-success btn-sm">Add</a>
-                                            </td>
+                                            <th>{{ $department }}</th>
+                                            <th>Action</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($subjects as $subject)
+                                            <tr>
+                                                <td>{{ $subject->name }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.class-subjects.add', ['classId' => $class_id, 'subjectId' => $subject->id]) }}"
+                                                       class="btn btn-success btn-sm">Add</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                @endforeach
                             </div>
-
                         </div>
-
                     </div>
                 </form>
             </div>

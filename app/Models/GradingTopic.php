@@ -22,4 +22,14 @@ class GradingTopic extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'grading_topic_id');
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(TopicGrade::class, 'grading_topic_id');
+    }
 }

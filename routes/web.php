@@ -205,6 +205,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('subject-grade/show/{id}', 'get_student');
         Route::get('subject-grade/grade/{id}', 'view_grades');
         Route::post('subject-grade/grade/update-or-create', 'updateOrCreate')->name('admin.subject-grade.updateOrCreate');
+        Route::post('subject-grade/grade/topic-update-or-create', 'topicUpdateOrCreate')->name('admin.topic-grade.updateOrCreate');
     });
 
     Route::controller(\App\Http\Controllers\Admin\TeacherNewsController::class)->group(function () {
@@ -318,6 +319,7 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
         Route::get('classes', 'index')->name('teacher.classes');
         Route::get('grade-classes', 'grade')->name('teacher.classes-grade');
         Route::get('class/students/{id}', 'viewStudents');
+        Route::get('class/subjects/{id}', 'viewSubjects');
         Route::post('class/subject/change-status/{id}', 'changeStatus');
 
         Route::get('class/student/grades/{id}', 'viewGrades')->name('teacher.view-grade');

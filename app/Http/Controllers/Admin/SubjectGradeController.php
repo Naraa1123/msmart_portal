@@ -34,8 +34,6 @@ class SubjectGradeController extends Controller
         }
     }
 
-
-
     public function get_student($id)
     {
         $decryptId = decrypt($id);
@@ -59,53 +57,87 @@ class SubjectGradeController extends Controller
             return redirect('admin/subject-grade')->with('error', 'User or class not found.');
         }
 
+        $className = $user->class->name;
+
+        $selectedSubjects = $user->class->subjects;
+
+        $firstLetter = strtoupper(substr($className, 0, 1));
+
+        $departments = [
+            'G' => 'График дизайн',
+            'S' => 'Программ хангамж',
+            'T' => 'Программ хангамж',
+            'I' => 'Интерьер дизайн',
+        ];
+
+        $department = $departments[$firstLetter];
+
+// Fetch topics
+        $gradableTopics = GradingTopic::where('department', $department)->where('status', 1)->get();
+        $nonGradableTopics = GradingTopic::where('department', $department)
+            ->where('status', 0)
+            ->with(['subjects' => function ($query) use ($selectedSubjects) {
+                $query->whereIn('id', $selectedSubjects->pluck('subject_id'));
+            }])
+            ->get();
 
 
-        $subjects = $user->class->subjects;
+        $topicGrades = TopicGrade::where('user_id', $decryptId)->get()->keyBy('grading_topic_id');
+        $subjectGrades = SubjectGrade::where('user_id', $decryptId)->get()->keyBy('subject_id');
 
-        $gradingTopics = GradingTopic::where('department', $subjects->first()->subject->department)->get();
-
-        $grades = SubjectGrade::where('user_id', $decryptId)
-            ->get()
-            ->keyBy('subject_id');
-
-// Map subjects to include grade information
-        $subjectsWithGrades = $subjects->map(function ($classSubject) use ($grades) {
-            $subjectId = $classSubject->subject_id;
-            $grade = $grades->get($subjectId);
-
-            return [
-                'subject' => $classSubject->subject, // Assuming you have the subject relationship set up
-                'grade' => $grade ? $grade->grade : 'No Grade',
-                'grading_topic_id' => $classSubject->subject->grading_topic_id, // Grading topic ID may be null
-            ];
+        $unassignedSubjects = $selectedSubjects->filter(function ($classSubject) {
+            return is_null($classSubject->subject->grading_topic_id);
         });
 
-// Group subjects by grading_topic_id
-        $subjectsGroupedByTopic = $gradingTopics->map(function ($topic) use ($subjectsWithGrades) {
+        $gradableTopicsWithGrades = $gradableTopics->map(function ($topic) use ($topicGrades) {
+            $grade = $topicGrades[$topic->id] ?? null;
+
             return [
                 'topic' => $topic,
-                'subjects' => $subjectsWithGrades->filter(function ($subjectWithGrade) use ($topic) {
-                    return $subjectWithGrade['grading_topic_id'] === $topic->id;
-                })->values(),
+                'grade' => $grade ? $grade->grade : 'No Grade',
             ];
         });
 
-// Add a separate group for subjects with no grading_topic_id
-        $unassignedSubjects = $subjectsWithGrades->filter(function ($subjectWithGrade) {
-            return is_null($subjectWithGrade['grading_topic_id']);
-        })->values();
+        $nonGradableTopicsWithGrades = $nonGradableTopics->map(function ($topic) use ($subjectGrades) {
+            $subjectsWithGrades = $topic->subjects->map(function ($subject) use ($subjectGrades) {
+                $grade = $subjectGrades[$subject->id] ?? null;
 
-        $subjectsGroupedByTopic->push([
-            'topic' => (object) ['topic' => 'Ерөнхий судлах хичээл'], // Placeholder topic for unassigned subjects
-            'subjects' => $unassignedSubjects,
+                return [
+                    'subject' => $subject,
+                    'grade' => $grade ? $grade->grade : 'No Grade',
+                ];
+            });
+
+            return [
+                'topic' => $topic,
+                'subjects' => $subjectsWithGrades,
+            ];
+        });
+
+        $unassignedSubjectsWithGrades = $unassignedSubjects->map(function ($classSubject) use ($subjectGrades) {
+            $subject = $classSubject->subject;
+            $grade = $subjectGrades[$subject->id] ?? null;
+
+            return [
+                'subject' => $subject,
+                'grade' => $grade ? $grade->grade : 'No Grade',
+            ];
+        });
+
+        if ($unassignedSubjectsWithGrades->isNotEmpty()) {
+            $nonGradableTopicsWithGrades->push([
+                'topic' => (object) ['topic' => 'Ерөнхий судлах хичээл'],
+                'subjects' => $unassignedSubjectsWithGrades,
+            ]);
+        }
+
+
+        return view('admin.subject_grade.grade', [
+            'gradableTopicsWithGrades' => $gradableTopicsWithGrades,
+            'nonGradableTopicsWithGrades' => $nonGradableTopicsWithGrades,
+            'user' => $user,
         ]);
-
-        $topic_grades = TopicGrade::where('user_id', $decryptId)->get();
-
-        return view('admin.subject_grade.grade', compact('subjectsGroupedByTopic', 'topic_grades', 'user'));
     }
-
     public function updateOrCreate(Request $request)
     {
         $validatedData = $request->validate([
@@ -122,6 +154,21 @@ class SubjectGradeController extends Controller
         return redirect()->back()->with('message', 'Grade saved successfully!');
     }
 
+    public function topicUpdateOrCreate(Request $request)
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'topic_id' => 'required',
+            'score' => 'required|numeric|min:0|max:100',
+        ]);
 
+
+        $grade = TopicGrade::updateOrCreate(
+            ['grading_topic_id' => $validatedData['topic_id'], 'user_id' => $validatedData['user_id']],
+            ['grade' => $validatedData['score']]
+        );
+
+        return redirect()->back()->with('message', 'Grade saved successfully!');
+    }
 
 }

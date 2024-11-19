@@ -19,15 +19,27 @@ class TopicGradeController extends Controller
 
         $user = User::with('class.subjects')->find($decryptId);
 
+
+
         if (!$user || !$user->class) {
             return redirect('teacher/dashboard')->with('error', 'User or class not found.');
         }
 
-        $subject_id = $user->class->subjects->first()->subject_id;
+        $className = $user->class->name;
 
-        $department = Subject::find($subject_id)->department;
+        $firstLetter = strtoupper(substr($className, 0, 1));
+
+        $departments = [
+            'G' => 'График дизайн',
+            'S' => 'Программ хангамж',
+            'T' => 'Программ хангамж',
+            'I' => 'Интерьер дизайн',
+        ];
+
+        $department = $departments[$firstLetter];
 
         $grading_topics = GradingTopic::query()->where('department',$department)->where('status',1)->get();
+
 
         $grades = TopicGrade::where('user_id', $decryptId)
             ->get()

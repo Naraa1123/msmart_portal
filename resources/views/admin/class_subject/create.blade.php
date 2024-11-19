@@ -44,7 +44,7 @@
                                         </div>
                                     @empty
                                         <div class="col-md-12">
-                                            <h1>No Subject Found!</h1>
+                                            <h4>No Subject Found!</h4>
                                         </div>
                                     @endforelse
                                 </div>

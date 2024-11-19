@@ -58,7 +58,8 @@
                             <tbody>
                             @foreach($subjects as $key=>$item)
                                 <tr>
-                                    <td>{{ ++$key }}</td>
+{{--                                    <td>{{ ++$key }}</td>--}}
+                                    <td>{{ $item->id }}</td>
                                     <td>{{$item->department}}</td>
                                     <td>{{$item->name}}</td>
                                     <td class="datatable-cell-sorted datatable-cell" data-field="Status" aria-label="1">
@@ -80,8 +81,6 @@
                                     </td>
 
                                     <td>{{ $item->created_at}}</td>
-
-
                                     <td>
                                         <a href="{{ url('admin/subject/edit/'.encrypt($item->id)) }}"
                                            class="btn btn-sm btn-clean btn-icon" title="edit">

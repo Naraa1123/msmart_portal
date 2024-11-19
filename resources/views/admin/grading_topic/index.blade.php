@@ -58,7 +58,8 @@
                             <tbody>
                             @foreach($topics as $key=>$item)
                                 <tr>
-                                    <td>{{ ++$key }}</td>
+{{--                                    <td>{{ ++$key }}</td>--}}
+                                    <td>{{ $item->id }}</td>
                                     <td>{{$item->topic}}</td>
                                     <td>{{$item->department}}</td>
                                     <td>{{$item->status}}</td>

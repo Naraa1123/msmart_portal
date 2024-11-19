@@ -119,7 +119,8 @@
                             <tbody>
                             @foreach ($users as $key=>$item)
                                 <tr>
-                                    <td>{{ ++$key }}</td>
+{{--                                    <td>{{ ++$key }}</td>--}}
+                                    <td>{{$item->id}}</td>
                                     <td class="datatable-cell-sorted datatable-cell" data-field="Status" aria-label="1">
                                         @if($item->role_as == '0')
                                             <span style="width: 112px;">

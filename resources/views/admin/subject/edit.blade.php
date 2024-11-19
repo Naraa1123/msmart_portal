@@ -90,6 +90,7 @@
                 gradingTopicSelect.empty();
 
                 if (department) {
+
                     $.ajax({
                         url: `admin/get-grading-topics?department=${department}`, // Adjust endpoint as needed
                         type: 'GET',

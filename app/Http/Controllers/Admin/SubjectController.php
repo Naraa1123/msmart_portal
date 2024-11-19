@@ -50,9 +50,17 @@ class SubjectController extends Controller
         $decryptedId = decrypt($id);
         $departments = Department::all();
         $subject = Subject::findOrFail($decryptedId);
-        $topics = GradingTopic::where('department', $subject->department)
-            ->where('status',0)
-            ->get();
+        if($subject->department != null){
+            $topics = GradingTopic::where('department', $subject->department)
+                ->where('status',0)
+                ->get();
+        }
+        else
+        {
+            $topics = GradingTopic::where('department', "Программ хангамж")
+                ->where('status',0)
+                ->get();
+        }
 
         return view('admin.subject.edit', compact('subject', 'departments','topics'));
     }
