@@ -567,6 +567,15 @@ class UserController extends Controller
         return redirect()->back()->with('message','Data амжилттай устлаа');
 
     }
+    public function comment(Request $request, $id)
+    {
+        $item = UserDetail::findOrFail($id);
+        $item->update([
+            'comment' => $request->comment
+        ]);
+
+        return redirect()->back()->with('success', 'Comment updated successfully!');
+    }
 
 
 

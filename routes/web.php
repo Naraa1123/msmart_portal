@@ -139,6 +139,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('user/took_leave', 'tookLeave')->name('admin.user-took-leave');
         Route::get('user/dropped_out', 'droppedOut')->name('admin.user-dropped-out');
         Route::get('user/create', 'create')->name('admin.user-create');
+        Route::put('user/comment/{id}', 'comment')->name('admin.comment.updateOrCreate');
         Route::post('user', 'store');
         Route::get('user/edit/{id}', 'edit');
         Route::put('user/{id}', 'update');

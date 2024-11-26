@@ -94,9 +94,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <br>
-
                         <!--begin: Datatable-->
                         <table class="table table-bordered table-hover table-checkable" id="kt_datatable"
                                style="margin-top: 13px !important">
@@ -119,8 +117,8 @@
                             <tbody>
                             @foreach ($users as $key=>$item)
                                 <tr>
-{{--                                    <td>{{ ++$key }}</td>--}}
-                                    <td>{{$item->id}}</td>
+                                    <td>{{ ++$key }}</td>
+                                    {{--                                    <td>{{$item->id}}</td>--}}
                                     <td class="datatable-cell-sorted datatable-cell" data-field="Status" aria-label="1">
                                         @if($item->role_as == '0')
                                             <span style="width: 112px;">
@@ -201,7 +199,47 @@
                                             <i class="la la-lock"></i>
                                         </a>
 
+                                        <a class="btn btn-sm btn-clean btn-icon" title="password"
+                                           data-toggle="modal" data-target="#commentModal{{$item->id}}">
+                                            <i class="la la-comment"></i>
+                                        </a>
 
+                                        <div class="modal fade" id="commentModal{{$item->id}}" tabindex="-1"
+                                             role="dialog" aria-labelledby="commentModalLabel{{$item->id}}"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form
+                                                        action="{{route('admin.comment.updateOrCreate',['id'=>$item->id])}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="payHistoryModalLabel{{$item->id}}">
+                                                                Тайлан</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <textarea class="form-control" rows="4"
+                                                                      name="comment">{{ $item->userDetails->comment }}</textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Хадгалах
+                                                            </button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Хаах
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </td>
 
@@ -313,7 +351,7 @@
                 table.draw();
             });
 
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 table.columns.adjust().draw();
             });
         });
