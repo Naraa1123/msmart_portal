@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Procedure;
 use App\Models\Survey;
 use App\Models\SurveyClass;
 use App\Models\SurveyResponse;
@@ -18,30 +19,13 @@ class DashboardController extends Controller
         return view('teacher.dashboard', compact('teacherNews'));
     }
 
-    public function juram1()
+    public function procedure($id)
     {
-        return view('teacher.juram.juram1');
+        $decrypted_id = decrypt($id);
+        $procedure = Procedure::find($decrypted_id);
+        return view('teacher.juram.index', compact('procedure'));
     }
 
-    public function juram2()
-    {
-        return view('teacher.juram.juram2');
-    }
-
-    public function juram3()
-    {
-        return view('teacher.juram.juram3');
-    }
-
-    public function juram4()
-    {
-        return view('teacher.juram.juram4');
-    }
-
-    public function juram5()
-    {
-        return view('teacher.juram.juram5');
-    }
 
     public function survey()
     {

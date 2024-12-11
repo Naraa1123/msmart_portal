@@ -31,7 +31,6 @@
                         <div class="row align-items-center">
                             <div class="col-lg-12 col-xl-12">
                                 <div class="row align-items-center">
-
                                     <!-- Class Filter -->
                                     <div class="col-md-3 col-sm-12 my-2">
                                         <div class="d-flex align-items-center">
@@ -41,6 +40,18 @@
                                                 @foreach($classes as $class)
                                                     <option value="{{$class->name}}">{{$class->name}}</option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-12 my-2">
+                                        <div class="d-flex align-items-center">
+                                            <label for="filterPayment" class="mr-3 mb-0">Төлбөр:</label>
+                                            <select id="filterPayment" class="form-control">
+                                                <option value="">Төлбөр сонгоно уу:</option>
+                                                <option value="paid">Бүх төлбөрөө төлсөн</option>
+                                                <option value="partial">Төлбөрийн үлдэгдэлтэй</option>
+                                                <option value="unpaid">Төлбөр төлөөгүй</option>
                                             </select>
                                         </div>
                                     </div>
@@ -367,6 +378,34 @@
 
 
             $('#filterClass').change(function () {
+                table.draw();
+            });
+
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                var filterPayment = $('#filterPayment').val(); // Get the selected filter value
+                var totalPaid = parseFloat(data[8].replace(/[^0-9.-]+/g, "")) || 0; // Parse total paid amount from column 2
+                var totalFee = parseFloat(data[7].replace(/[^0-9.-]+/g, "")) || 0; // Parse total fee amount from column 3
+
+                if (filterPayment === "") {
+                    return true; // Show all rows if no filter is selected
+                }
+
+                if (filterPayment === "paid" && totalPaid === totalFee) {
+                    return true; // Filter for fully paid
+                }
+
+                if (filterPayment === "partial" && totalPaid > 0 && totalPaid < totalFee) {
+                    return true; // Filter for partially paid
+                }
+
+                if (filterPayment === "unpaid" && totalPaid === 0) {
+                    return true; // Filter for unpaid
+                }
+
+                return false; // Otherwise, hide the row
+            });
+
+            $('#filterPayment').change(function () {
                 table.draw();
             });
         });

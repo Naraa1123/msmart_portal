@@ -20,11 +20,16 @@ class ReportController extends Controller
         return view('admin.report.index',compact('reports'));
     }
 
-    public function update($id)
+    public function update(Request $request,$id)
     {
+        $validatedData = $request->validate([
+            'feedback'=>'nullable'
+        ]);
+
         $report = Report::query()->findOrFail($id);
 
         $report->update([
+            'feedback' => $validatedData['feedback'],
             'status' => 'холбогдсон',
         ]);
 

@@ -238,6 +238,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::delete('admin/special/news/image/{id}', 'deleteImage')->name('admin.special.news.deleteImage');
     });
 
+    Route::controller(\App\Http\Controllers\Admin\ProcedureController::class)->group(function () {
+        Route::get('procedure', 'index')->name('admin.procedure');
+        Route::get('procedure/create', 'create')->name('admin.procedure.create');
+        Route::post('procedure/store', 'store')->name('admin.procedure.store');
+        Route::get('procedure/edit/{id}', 'edit')->name('admin.procedure.edit');
+        Route::put('procedure/update/{id}', 'update')->name('admin.procedure.update');
+        Route::get('procedure/destroy/{id}', 'destroy')->name('admin.procedure.remove');
+    });
 
     Route::controller(\App\Http\Controllers\Admin\SurveyController::class)->group(function () {
         Route::get('survey', 'index')->name('admin.survey.list');
@@ -294,11 +302,8 @@ Route::prefix('teacher')->middleware(['auth', 'isTeacher'])->group(function () {
 
     Route::controller(\App\Http\Controllers\Teacher\DashboardController::class)->group(function () {
         Route::get('dashboard', 'index')->name('teacher.dashboard');
-        Route::get('багшийн-гүйцэтгэл-үнэлэх-журам', 'juram1')->name('teacher.juram1');
-        Route::get('багшийн-ёс-зүй', 'juram2')->name('teacher.juram2');
-        Route::get('дадлага', 'juram3')->name('teacher.juram3');
-        Route::get('хүүхэд-хамгааллын-бодлого', 'juram4')->name('teacher.juram4');
-        Route::get('сурагчдын-тэтгэлэгт-хамрагдах-тухай', 'juram5')->name('teacher.juram5');
+        Route::get('procedure/{id}', 'procedure')->name('teacher.procedure.show');
+
         Route::get('survey', 'survey')->name('teacher.survey');
         Route::get('survey', 'getClassData')->name('teacher.survey');
 

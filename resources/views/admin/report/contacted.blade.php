@@ -73,8 +73,9 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form action="#">
-
+                                                    <form action="{{route('admin.reported-student-update',['id'=>$item->id])}}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
                                                         <div class="modal-body">
                                                             <div>
                                                                 <label for="note">Сурагч</label>
@@ -103,11 +104,17 @@
                                                                     <textarea class="form-control" readonly>{{$item->description}}</textarea>
                                                                 </div>
                                                             </div>
-
+                                                            <div>
+                                                                <label for="feedback">Холбогдсон тайлбар</label>
+                                                                <div class="input-group">
+                                                                    <textarea class="form-control" name="feedback"></textarea>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Цуцлах</button>
+                                                            <button type="submit" class="btn btn-primary">Хадгалах</button>
                                                         </div>
                                                     </form>
                                                 </div>

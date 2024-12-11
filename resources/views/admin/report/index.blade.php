@@ -104,7 +104,12 @@
                                                                     <textarea class="form-control" readonly>{{$item->description}}</textarea>
                                                                 </div>
                                                             </div>
-
+                                                            <div>
+                                                                <label for="feedback">Холбогдсон тайлбар</label>
+                                                                <div class="input-group">
+                                                                    <textarea class="form-control" name="feedback"></textarea>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         <div class="modal-footer">
