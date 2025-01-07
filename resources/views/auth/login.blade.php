@@ -43,8 +43,16 @@
                         </span>
                         @enderror
 
+                        @if(session('error'))
+                            <div class="bg-red-500 text-white p-4 rounded-md">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                         <button type="submit" class="student-button">{{ __('Нэвтрэх') }}</button>
                     </form>
+
+
 
                 </div>
             </div>

@@ -20,7 +20,14 @@ class StudentMiddleware
         {
             if (Auth::user()->role_as == 3)
             {
-                return $next($request);
+                if(Auth::user()->userDetails->status == 'dropped_out')
+                {
+                    Auth::logout();
+                    return redirect(url('/'))->with('error', 'Нэвтрэх эрх байхгүй байна.');
+                }
+                else{
+                    return $next($request);
+                }
             }
             else
             {
